@@ -3,6 +3,7 @@ import ThemeProvider from "./theme-provider";
 import { Poppins } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import "./globals.css";
+import Wrapper from "@/components/Wrapper";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,8 +24,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className={poppins.className}>
       <body className="bg-background dark:bg-dark-background text-smoth-black dark:text-white">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Navbar />
-          {children}
+          <Wrapper>
+            <Navbar />
+            {children}
+          </Wrapper>
         </ThemeProvider>
       </body>
     </html>
