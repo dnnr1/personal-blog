@@ -18,18 +18,19 @@ type PostProps = {
 
 function Post({ data }: PostProps) {
   const router = useRouter();
-
   const goToPost = useCallback(() => {
     router.push(`/post/${data.id}`);
   }, [data.id, router]);
-
   return (
-    <div className={`p-4 m-2 bg-background dark:bg-dark-background`}>
+    <div className={`bg-background dark:bg-dark-background`}>
       {data.pictureUrl ? (
         <Image
           src={data.pictureUrl}
           alt="Random Image"
-          className="mb-4 rounded cursor-pointer"
+          className="mb-4 rounded cursor-pointer border-2 
+           grayscale hover:grayscale-0 
+           hover:scale-101 
+           transition-all duration-750 ease-in-out"
           width={1920}
           height={1080}
           onClick={goToPost}
@@ -45,7 +46,8 @@ function Post({ data }: PostProps) {
         {cutText(data.content, 130)}
       </p>
       <p className="text-sm text-gray-500 dark:text-gray-400 pt-2">
-        {formatDate(data.created_at)} by {data.author}
+        {formatDate(data.created_at)} by{" "}
+        <span className="text-smooth-orange">{data.author}</span>
       </p>
     </div>
   );

@@ -1,6 +1,9 @@
+import { getServerAuthSession } from "@/app/api/auth/[...nextauth]/route";
 import ThemeSwitch from "../ThemeSwitch";
 
-function Navbar() {
+async function Navbar() {
+  const session = await getServerAuthSession();
+  const user = session?.user;
   return (
     <div className="flex justify-between items-center py-4">
       <a href="/" className="flex items-center">
@@ -9,9 +12,16 @@ function Navbar() {
             D
           </span>
         </div>
-        <h1 className="text-2xl font-bold text-smoth-orange pl-1">ann</h1>
+        <h1 className="text-2xl font-bold text-smooth-orange pl-1">ann</h1>
       </a>
-      <ThemeSwitch />
+      <div className="flex items-center gap-4">
+        {user && user.id ? (
+          <div className="flex items-center gap-4">
+            <span className="text-sm">Hello, {user?.name}</span>
+          </div>
+        ) : null}
+        <ThemeSwitch />
+      </div>
     </div>
   );
 }

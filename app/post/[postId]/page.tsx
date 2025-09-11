@@ -1,4 +1,5 @@
 import { fetchPost } from "@/apis/getPost";
+import Dot from "@/components/Dot";
 import formatDate from "@/util/formatDate";
 import Image from "next/image";
 
@@ -9,7 +10,6 @@ export default async function Page({
 }) {
   const { postId } = await params;
   const data = await fetchPost(postId);
-
   return (
     <div className="flex flex-col items-center justify-center pt-14">
       <h1 className="text-center text-4xl font-bold pb-4">{data.title}</h1>
@@ -18,16 +18,16 @@ export default async function Page({
           <Image src="/avatar.png" alt="avatar" height={500} width={500} />
         </div>
         <div>
-          <h1 className="text-smoth-orange">{data.author}</h1>
+          <h1 className="text-smooth-orange">{data.author}</h1>
           <p className="text-gray-500 dark:text-gray-400">
             {formatDate(data.created_at)}
           </p>
         </div>
       </div>
       <div className="flex items-center w-[40px] justify-between pb-10">
-        <span className="relative inline-flex size-1.5 rounded-full bg-dark-background dark:bg-white"></span>
-        <span className="relative inline-flex size-1.5 rounded-full bg-dark-background dark:bg-white"></span>
-        <span className="relative inline-flex size-1.5 rounded-full bg-dark-background dark:bg-white"></span>
+        <Dot />
+        <Dot />
+        <Dot />
       </div>
       <div className="w-[600px]">
         {data.pictureUrl ? (

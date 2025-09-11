@@ -2,10 +2,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* Color Variables */
   --color-background: #f9f4ec;
   --color-dark-background: #201f1f;
-  /* --color-primary: ---; */
-  --color-smoth-orange: #ee5626;
-  --color-smoth-black: #201f1f;
+  --color-smooth-orange: #ee5626;
+  --color-smooth-black: #201f1f;
 }

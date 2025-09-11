@@ -22,7 +22,7 @@ export default function ThemeSwitch() {
       className={`relative w-14 h-7 rounded-full flex items-center px-1 transition-colors duration-300 cursor-pointer
         ${
           isDark
-            ? "bg-dark-background shadow-[0_0_10px_2px_#f97316] border-smoth-orange border-2 h-8"
+            ? "bg-dark-background shadow-[0_0_10px_2px_#f97316] border-smooth-orange border-2 h-8"
             : "bg-dark-background"
         }
       `}
