@@ -33,10 +33,11 @@ export default async function Page({
         {data.pictureUrl ? (
           <Image
             src={data.pictureUrl}
-            alt="Random Image"
+            alt="Post image"
             className="mb-4 rounded"
             width={1920}
             height={1080}
+            priority
           />
         ) : null}
         <p>{data.content}</p>

@@ -29,13 +29,14 @@ function Post({ data }: PostProps) {
       {data.pictureUrl ? (
         <Image
           src={data.pictureUrl}
-          alt="Random Image"
+          alt="Post image"
           className="mb-4 rounded border-2 
            grayscale hover:grayscale-0 
            hover:scale-101 
            transition-all duration-750 ease-in-out"
           width={1920}
           height={1080}
+          priority
         />
       ) : null}
       <h2 className="text-2xl font-bold font-serif mb-3">
