@@ -22,24 +22,23 @@ function Post({ data }: PostProps) {
     router.push(`/post/${data.id}`);
   }, [data.id, router]);
   return (
-    <div className={`bg-background dark:bg-dark-background`}>
+    <div
+      className={`bg-background dark:bg-dark-background cursor-pointer`}
+      onClick={goToPost}
+    >
       {data.pictureUrl ? (
         <Image
           src={data.pictureUrl}
           alt="Random Image"
-          className="mb-4 rounded cursor-pointer border-2 
+          className="mb-4 rounded border-2 
            grayscale hover:grayscale-0 
            hover:scale-101 
            transition-all duration-750 ease-in-out"
           width={1920}
           height={1080}
-          onClick={goToPost}
         />
       ) : null}
-      <h2
-        className="text-2xl font-bold font-serif mb-6 cursor-pointer"
-        onClick={goToPost}
-      >
+      <h2 className="text-2xl font-bold font-serif mb-3">
         {cutText(data.title, 30)}
       </h2>
       <p className="text-gray-700 dark:text-gray-300">
