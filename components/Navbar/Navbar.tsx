@@ -1,5 +1,8 @@
 import { getServerAuthSession } from "@/app/api/auth/[...nextauth]/route";
 import ThemeSwitch from "../ThemeSwitch";
+import LogoutButton from "../LogoutButton";
+import NewPostButton from "../NewPostButton";
+import LoginButton from "../LoginButton";
 
 async function Navbar() {
   const session = await getServerAuthSession();
@@ -16,10 +19,16 @@ async function Navbar() {
       </a>
       <div className="flex items-center gap-4">
         {user && user.id ? (
-          <div className="flex items-center gap-4">
-            <span className="text-sm">Hello, {user?.name}</span>
-          </div>
-        ) : null}
+          <>
+            <div className="flex items-center gap-4">
+              <span className="text-sm">Hello, {user?.name}</span>
+            </div>
+            <NewPostButton />
+            <LogoutButton />
+          </>
+        ) : (
+          <LoginButton />
+        )}
         <ThemeSwitch />
       </div>
     </div>
