@@ -1,5 +1,6 @@
 import { fetchPost } from "@/apis/getPost";
 import Dot from "@/components/Dot";
+import MDPreview from "@/components/MDPreview";
 import formatDate from "@/util/formatDate";
 import Image from "next/image";
 
@@ -40,7 +41,7 @@ export default async function Page({
             priority
           />
         ) : null}
-        <p>{data.content}</p>
+        <MDPreview value={data.content} />
       </div>
     </div>
   );

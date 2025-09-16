@@ -1,6 +1,8 @@
 import NextAuth, { type NextAuthOptions, getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+const baseURL = process.env.API_BASE_URL || "";
+
 const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -14,7 +16,7 @@ const authOptions: NextAuthOptions = {
           return null;
         }
         try {
-          const response = await fetch("http://localhost:3030/blog-api/login", {
+          const response = await fetch(`${baseURL}/login`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -26,11 +28,23 @@ const authOptions: NextAuthOptions = {
           });
           const data = await response.json();
           if (data.ok && data.status === 200) {
-            return {
+            const setCookie = response.headers.get("set-cookie");
+            let tokenValue: string | undefined = undefined;
+            if (setCookie) {
+              const match = setCookie.match(/token=([^;]+)/);
+              if (match) tokenValue = match[1];
+            }
+
+            const user = {
               id: data.data.id,
               name: data.data.username,
               email: data.data.email,
+              token: tokenValue,
             };
+
+            console.log(user);
+
+            return user;
           }
           return null;
         } catch (error) {
@@ -50,12 +64,14 @@ const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.apiToken = user.token;
       }
       return token;
     },
     async session({ session, token }) {
       if (token && session.user) {
         session.user.id = token.id as string;
+        session.user.apiToken = token.apiToken as string;
       }
       return session;
     },
