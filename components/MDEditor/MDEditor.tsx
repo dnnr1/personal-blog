@@ -1,7 +1,6 @@
 "use client";
 import ReactMDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
-import MDPreview from "../MDPreview";
 
 export default function MDEditor() {
   const [value, setValue] = useState("**Hello world!!!**");
