@@ -43,6 +43,7 @@ export default function LoginPage() {
     >
       <input
         type="email"
+        name="username"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         className="mb-2 p-2 border border-smooth-black dark:border-gray-300 rounded"
@@ -51,6 +52,7 @@ export default function LoginPage() {
       />
       <input
         type="password"
+        name="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         className="mb-2 p-2 border border-smooth-black dark:border-gray-300 rounded"
