@@ -1,8 +1,9 @@
-import { fetchPosts } from "@/apis/getPosts";
+import { fetchPosts } from "@/hooks/usePosts";
 import Post from "@/components/Post";
 
 export default async function Home() {
   const data = await fetchPosts();
+
   return (
     <div className="w-full h-full">
       <h1 className="text-center underline text-2xl">Latest Updates</h1>

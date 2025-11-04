@@ -1,4 +1,4 @@
-import { fetchPost } from "@/apis/getPost";
+import { fetchPost } from "@/hooks/usePost";
 import Dot from "@/components/Dot";
 import MDPreview from "@/components/MDPreview";
 import formatDate from "@/util/formatDate";
@@ -11,6 +11,7 @@ export default async function Page({
 }) {
   const { postId } = await params;
   const data = await fetchPost(postId);
+
   return (
     <div className="flex flex-col items-center justify-center pt-14">
       <h1 className="text-center text-4xl font-bold pb-4">{data.title}</h1>

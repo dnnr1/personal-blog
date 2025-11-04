@@ -4,6 +4,8 @@ import { Poppins } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import "./globals.css";
 import Wrapper from "@/components/Wrapper";
+import QueryProvider from "@/components/QueryProvider";
+import SessionProvider from "@/components/SessionProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,12 +25,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={poppins.className}>
       <body className="bg-background dark:bg-dark-background text-smooth-black dark:text-white">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Wrapper>
-            <Navbar />
-            {children}
-          </Wrapper>
-        </ThemeProvider>
+        <SessionProvider>
+          <QueryProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <Wrapper>
+                <Navbar />
+                {children}
+              </Wrapper>
+            </ThemeProvider>
+          </QueryProvider>
+        </SessionProvider>
       </body>
     </html>
   );

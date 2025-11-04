@@ -6,16 +6,16 @@ type Props = {
 };
 
 export default function MDPreview({ value }: Props) {
-  if (value) {
-    return (
-      <ReactMDEditor.Markdown
-        source={value}
-        style={{
-          whiteSpace: "pre-wrap",
-          background: "none",
-          fontFamily: "inherit",
-        }}
-      />
-    );
-  }
+  if (!value) return null;
+  return (
+    <ReactMDEditor.Markdown
+      source={value}
+      style={{
+        whiteSpace: "pre-wrap",
+        background: "none",
+        fontFamily: "inherit",
+        color: "inherit",
+      }}
+    />
+  );
 }

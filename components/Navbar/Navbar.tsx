@@ -1,4 +1,4 @@
-import { getServerAuthSession } from "@/app/api/auth/[...nextauth]/route";
+import { getServerAuthSession } from "@/lib/auth";
 import ThemeSwitch from "../ThemeSwitch";
 import LogoutButton from "../LogoutButton";
 import NewPostButton from "../NewPostButton";
