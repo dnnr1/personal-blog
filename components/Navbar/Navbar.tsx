@@ -1,8 +1,6 @@
 import { getServerAuthSession } from "@/lib/auth";
 import ThemeSwitch from "../ThemeSwitch";
-import LogoutButton from "../LogoutButton";
-import NewPostButton from "../NewPostButton";
-import LoginButton from "../LoginButton";
+import Button from "../Button";
 
 async function Navbar() {
   const session = await getServerAuthSession();
@@ -23,11 +21,11 @@ async function Navbar() {
             <div className="flex items-center gap-4">
               <span className="text-sm">Hello, {user?.name}</span>
             </div>
-            <NewPostButton />
-            <LogoutButton />
+            <Button text="New Post" href="/post/new" />
+            <Button text="Logout" isLogout />
           </>
         ) : (
-          <LoginButton />
+          <Button text="Login" href="/login" />
         )}
         <ThemeSwitch />
       </div>
