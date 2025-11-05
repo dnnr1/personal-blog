@@ -19,7 +19,9 @@ async function Navbar() {
         {user && user.id ? (
           <>
             <div className="flex items-center gap-4">
-              <span className="text-sm">Hello, {user?.name}</span>
+              <p className="text-sm">
+                Hello, <span className="text-smooth-orange">{user?.name}</span>
+              </p>
             </div>
             <Button text="New Post" href="/post/new" />
             <Button text="Logout" isLogout />
