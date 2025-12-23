@@ -1,44 +1,35 @@
 "use client";
-import type { Post } from "@/types/posts";
+import type { Post } from "@/types";
 import formatDate from "@/util/formatDate";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
 
-const cutText = (text: string, max: number) => {
-  if (text.length > max) {
-    return text.substring(0, max).trim() + "...";
-  }
-  return text;
-};
+function cutText(text: string, max: number) {
+  return text.length > max ? `${text.substring(0, max).trim()}...` : text;
+}
 
-type PostProps = {
+type Props = {
   data: Post;
 };
 
-function Post({ data }: PostProps) {
+export default function Post({ data }: Props) {
   const router = useRouter();
-  const goToPost = useCallback(() => {
-    router.push(`/post/${data.id}`);
-  }, [data.id, router]);
+
   return (
     <div
-      className={`bg-background dark:bg-dark-background cursor-pointer`}
-      onClick={goToPost}
+      className="bg-background dark:bg-dark-background cursor-pointer"
+      onClick={() => router.push(`/post/${data.id}`)}
     >
-      {data.pictureUrl ? (
+      {data.pictureUrl && (
         <Image
           src={data.pictureUrl}
           alt="Post image"
-          className="mb-4 rounded border-2 
-           grayscale hover:grayscale-0 
-           hover:scale-101 
-           transition-all duration-750 ease-in-out"
+          className="mb-4 rounded border-2 grayscale hover:grayscale-0 hover:scale-101 transition-all duration-750"
           width={1920}
           height={1080}
           priority
         />
-      ) : null}
+      )}
       <h2 className="text-2xl font-bold font-serif mb-3">
         {cutText(data.title, 30)}
       </h2>
@@ -52,5 +43,3 @@ function Post({ data }: PostProps) {
     </div>
   );
 }
-
-export default Post;

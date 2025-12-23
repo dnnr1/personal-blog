@@ -1,75 +1,76 @@
 "use client";
 import ReactMDEditor from "@uiw/react-md-editor";
-import { useState } from "react";
-import { useSession } from "next-auth/react";
-import { useUploadImage } from "@/hooks/useUpload";
+import { useCallback, useImperativeHandle, forwardRef, useRef } from "react";
+
+export type PendingImage = {
+  blobUrl: string;
+  file: File;
+};
+
+export type MDEditorRef = {
+  getPendingImages: () => PendingImage[];
+};
 
 type Props = {
   value: string;
-  onChange?: (val: string) => void;
+  onChange: (val: string) => void;
 };
 
-export default function MDEditor({ value, onChange }: Props) {
-  const [editorValue, setValue] = useState(value);
-  const [file, setFile] = useState<File | null>(null);
-  const { data: session } = useSession();
-  const uploadMutation = useUploadImage();
+const MDEditor = forwardRef<MDEditorRef, Props>(({ value, onChange }, ref) => {
+  const pendingImagesRef = useRef<PendingImage[]>([]);
 
-  function handleChange(val: string | undefined) {
-    if (val === undefined) return;
-    setValue(val);
-    onChange?.(val);
-  }
+  useImperativeHandle(ref, () => ({
+    getPendingImages: () => pendingImagesRef.current,
+  }));
 
-  function onDrop(e: React.DragEvent<HTMLTextAreaElement>) {
-    e.preventDefault();
-    const droppedFile = e.dataTransfer.files[0];
-    if (!droppedFile) return;
+  const addImage = useCallback(
+    (file: File) => {
+      const blobUrl = URL.createObjectURL(file);
+      pendingImagesRef.current.push({ blobUrl, file });
+      onChange(`${value}\n\n![image](${blobUrl})`);
+    },
+    [onChange, value]
+  );
 
-    const objectURL = URL.createObjectURL(droppedFile);
-    setFile(droppedFile);
-    setValue((prev) => `${prev}\n\n![alt text](${objectURL})`);
-  }
-
-  async function handleUpload() {
-    if (!file || !session?.user?.apiToken) {
-      console.error("No file or no authentication token");
-      return;
-    }
-
-    try {
-      const result = await uploadMutation.mutateAsync({
-        file,
-        token: session.user.apiToken as string,
-      });
-
-      if (result?.data?.fileUrl) {
-        setValue((prev) => `${prev}\n\n![alt text](${result.data.fileUrl})`);
-        setFile(null);
+  const handleDrop = useCallback(
+    (e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      const file = e.dataTransfer.files[0];
+      if (file?.type.startsWith("image/")) {
+        addImage(file);
       }
-    } catch (err) {
-      console.error("Upload error:", err);
-    }
-  }
+    },
+    [addImage]
+  );
+
+  const handlePaste = useCallback(
+    (e: React.ClipboardEvent<HTMLDivElement>) => {
+      const items = e.clipboardData.items;
+      for (const item of items) {
+        if (item.type.startsWith("image/")) {
+          const file = item.getAsFile();
+          if (file) {
+            e.preventDefault();
+            addImage(file);
+            return;
+          }
+        }
+      }
+    },
+    [addImage]
+  );
 
   return (
-    <div>
+    <div onDrop={handleDrop} onPaste={handlePaste} onDragOver={(e) => e.preventDefault()}>
       <ReactMDEditor
-        value={editorValue}
-        onChange={handleChange}
-        textareaProps={{
-          onDrop: (e) => onDrop(e),
-        }}
+        value={value}
+        onChange={(val) => onChange(val || "")}
+        height={400}
       />
-      {file && (
-        <button
-          onClick={handleUpload}
-          disabled={uploadMutation.isPending}
-          className="mt-2 border-1 p-[0.5rem] text-xs rounded cursor-pointer disabled:opacity-50"
-        >
-          {uploadMutation.isPending ? "Uploading..." : "Upload Image"}
-        </button>
-      )}
     </div>
   );
-}
+});
+
+MDEditor.displayName = "MDEditor";
+
+export default MDEditor;
