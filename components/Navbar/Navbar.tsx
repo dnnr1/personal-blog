@@ -26,9 +26,7 @@ async function Navbar() {
             <Button text="New Post" href="/post/new" />
             <Button text="Logout" isLogout />
           </>
-        ) : (
-          <Button text="Login" href="/login" />
-        )}
+        ) : null}
         <ThemeSwitch />
       </div>
     </div>

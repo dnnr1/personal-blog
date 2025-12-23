@@ -38,7 +38,6 @@ export default function PostActions({ postId }: Props) {
           Delete
         </button>
       </div>
-
       <ConfirmModal
         isOpen={showDeleteModal}
         title="Delete Post"

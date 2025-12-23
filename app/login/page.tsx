@@ -55,7 +55,6 @@ export default function LoginPage() {
           <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
         )}
       </div>
-
       <div>
         <input
           {...register("password")}
@@ -67,7 +66,6 @@ export default function LoginPage() {
           <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
         )}
       </div>
-
       <button
         type="submit"
         disabled={isSubmitting}
@@ -75,7 +73,6 @@ export default function LoginPage() {
       >
         {isSubmitting ? "Signing in..." : "Login"}
       </button>
-
       {error && <p className="text-red-500 text-center">{error}</p>}
     </form>
   );
