@@ -6,6 +6,7 @@ import { useState, useRef, useImperativeHandle, forwardRef } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import type { MDEditorRef, PendingImage } from "@/components/MDEditor/MDEditor";
+import Button from "../Button";
 
 const MDEditor = dynamic(() => import("@/components/MDEditor"), { ssr: false });
 
@@ -102,21 +103,12 @@ const PostForm = forwardRef<PostFormRef, Props>(
               onChange={handleFileChange}
               className="hidden"
             />
-            <button
-              type="button"
+            <Button
+              text={coverPreview ? "Change image" : "Select image"}
               onClick={() => fileInputRef.current?.click()}
-              className="px-4 py-2 border rounded hover:bg-gray-100 dark:hover:bg-gray-800"
-            >
-              {coverPreview ? "Change image" : "Select image"}
-            </button>
+            />
             {coverPreview && (
-              <button
-                type="button"
-                onClick={removeCover}
-                className="px-4 py-2 text-red-600 border border-red-600 rounded hover:bg-red-50 dark:hover:bg-red-900/20"
-              >
-                Remove
-              </button>
+              <Button text="Remove" type="button" onClick={removeCover} />
             )}
           </div>
           {coverPreview && (
@@ -149,13 +141,11 @@ const PostForm = forwardRef<PostFormRef, Props>(
             </p>
           )}
         </div>
-        <button
-          type="submit"
+        <Button
+          text={isLoading ? "Saving..." : submitLabel}
           disabled={isLoading}
-          className="px-6 py-2 bg-smooth-orange text-white rounded hover:opacity-90 disabled:opacity-50"
-        >
-          {isLoading ? "Saving..." : submitLabel}
-        </button>
+          type="submit"
+        />
       </form>
     );
   }

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useDeletePost } from "@/hooks";
 import ConfirmModal from "@/components/ConfirmModal";
+import Button from "../Button";
 
 type Props = {
   postId: string;
@@ -25,18 +26,11 @@ export default function PostActions({ postId }: Props) {
   return (
     <>
       <div className="flex gap-2">
-        <button
+        <Button
+          text="Edit"
           onClick={() => router.push(`/post/${postId}/edit`)}
-          className="px-4 py-2 border rounded hover:bg-gray-100 dark:hover:bg-gray-800"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => setShowDeleteModal(true)}
-          className="px-4 py-2 border border-red-600 text-red-600 rounded hover:bg-red-50 dark:hover:bg-red-900/20"
-        >
-          Delete
-        </button>
+        />
+        <Button text="Delete" onClick={() => setShowDeleteModal(true)} />
       </div>
       <ConfirmModal
         isOpen={showDeleteModal}
