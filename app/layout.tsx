@@ -6,6 +6,7 @@ import "./globals.css";
 import Wrapper from "@/components/Wrapper";
 import QueryProvider from "@/components/QueryProvider";
 import SessionProvider from "@/components/SessionProvider";
+import { getServerAuthSession } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,15 +18,16 @@ const poppins = Poppins({
   subsets: ["latin"],
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getServerAuthSession();
   return (
     <html lang="en" suppressHydrationWarning className={poppins.className}>
       <body className="bg-background dark:bg-dark-background text-smooth-black dark:text-white">
-        <SessionProvider>
+        <SessionProvider session={session}>
           <QueryProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <Wrapper>
