@@ -86,7 +86,7 @@ const PostForm = forwardRef<PostFormRef, Props>(
         <div>
           <input
             {...register("title")}
-            placeholder="Post title"
+            placeholder="Post title*"
             className="w-full p-3 border rounded dark:bg-dark-background dark:border-gray-600"
           />
           {errors.title && (
