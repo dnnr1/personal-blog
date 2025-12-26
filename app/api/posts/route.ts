@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth-options";
 
-const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
+const API_URL = process.env.API_BASE_URL || "";
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);

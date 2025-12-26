@@ -1,3 +1,3 @@
+API_BASE_URL="http://localhost:8080/blog-api"
 NEXTAUTH_URL="http://localhost:3000"
-NEXTAUTH_SECRET=deeznuts_GOT_EMM
-NEXT_PUBLIC_API_BASE_URL="http://localhost:3030/blog-api"
+NEXTAUTH_SECRET=secret

@@ -1,11 +1,14 @@
-const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
+const API_URL = process.env.API_BASE_URL || "";
 
 type RequestOptions = {
   method?: "GET" | "POST" | "PUT" | "DELETE";
   body?: unknown;
 };
 
-async function request<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
+async function request<T>(
+  endpoint: string,
+  options: RequestOptions = {}
+): Promise<T> {
   const { method = "GET", body } = options;
 
   const res = await fetch(`${API_URL}${endpoint}`, {
@@ -24,7 +27,10 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
   return data.data;
 }
 
-async function authRequest<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
+async function authRequest<T>(
+  endpoint: string,
+  options: RequestOptions = {}
+): Promise<T> {
   const { method = "GET", body } = options;
 
   const res = await fetch(`/api${endpoint}`, {
@@ -44,9 +50,12 @@ async function authRequest<T>(endpoint: string, options: RequestOptions = {}): P
 
 export const api = {
   get: <T>(endpoint: string) => request<T>(endpoint),
-  post: <T>(endpoint: string, body: unknown) => authRequest<T>(endpoint, { method: "POST", body }),
-  put: <T>(endpoint: string, body: unknown) => authRequest<T>(endpoint, { method: "PUT", body }),
-  delete: <T>(endpoint: string) => authRequest<T>(endpoint, { method: "DELETE" }),
+  post: <T>(endpoint: string, body: unknown) =>
+    authRequest<T>(endpoint, { method: "POST", body }),
+  put: <T>(endpoint: string, body: unknown) =>
+    authRequest<T>(endpoint, { method: "PUT", body }),
+  delete: <T>(endpoint: string) =>
+    authRequest<T>(endpoint, { method: "DELETE" }),
 };
 
 export async function uploadFiles(files: File[]): Promise<string[]> {
