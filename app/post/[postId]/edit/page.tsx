@@ -1,31 +1,57 @@
 "use client";
 import { useRouter, useParams } from "next/navigation";
-import { usePost, useUpdatePost, useUploadImages } from "@/hooks";
 import PostForm from "@/components/PostForm";
 import { PostFormData } from "@/lib/validations";
 import type { PendingImage } from "@/components/MDEditor/MDEditor";
+import { PostInput } from "@/types";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import editPost from "@/api/editPost";
+import { uploadFiles } from "@/api/uploadImages";
+import { getPost } from "@/api/getPost";
+
+type PostMutation = {
+  id: string;
+  data: PostInput;
+};
 
 export default function EditPostPage() {
   const router = useRouter();
   const params = useParams<{ postId: string }>();
-  const { data: post, isLoading: isLoadingPost } = usePost(params.postId);
-  const updatePost = useUpdatePost();
-  const uploadImages = useUploadImages();
 
-  const isLoading = updatePost.isPending || uploadImages.isPending;
+  const query = useQuery({
+    queryKey: ["posts", params.postId],
+    queryFn: () => getPost(params.postId),
+  });
 
-  async function handleSubmit(data: PostFormData, coverFile?: File, pendingImages?: PendingImage[]) {
+  const post = query.data;
+
+  const editPostMutation = useMutation({
+    mutationFn: ({ id, data }: PostMutation) => editPost(id, data),
+  });
+
+  const uploadImagesMutation = useMutation({
+    mutationFn: (data: File[]) => uploadFiles(data),
+  });
+
+  const isLoading =
+    editPostMutation.isPending || uploadImagesMutation.isPending;
+
+  async function handleSubmit(
+    data: PostFormData,
+    coverFile?: File,
+    pendingImages?: PendingImage[]
+  ) {
     let content = data.content;
     let pictureUrl = post?.pictureUrl;
 
     if (coverFile) {
-      const urls = await uploadImages.mutateAsync([coverFile]);
+      const urls = await uploadImagesMutation.mutateAsync([coverFile]);
       if (urls[0]) pictureUrl = urls[0];
     }
 
     if (pendingImages?.length) {
       const files = pendingImages.map((img) => img.file);
-      const urls = await uploadImages.mutateAsync(files);
+      const urls = await uploadImagesMutation.mutateAsync(files);
 
       pendingImages.forEach((img, i) => {
         if (urls[i]) {
@@ -34,7 +60,7 @@ export default function EditPostPage() {
       });
     }
 
-    await updatePost.mutateAsync({
+    await editPostMutation.mutateAsync({
       id: params.postId,
       data: { title: data.title, content, pictureUrl },
     });
@@ -42,7 +68,7 @@ export default function EditPostPage() {
     router.push(`/post/${params.postId}`);
   }
 
-  if (isLoadingPost) return <p className="text-center py-8">Loading...</p>;
+  if (query.isLoading) return <p className="text-center py-8">Loading...</p>;
   if (!post) return <p className="text-center py-8">Post not found</p>;
 
   return (
@@ -59,7 +85,7 @@ export default function EditPostPage() {
         isLoading={isLoading}
         submitLabel="Save Changes"
       />
-      {(updatePost.isError || uploadImages.isError) && (
+      {(editPostMutation.isError || uploadImagesMutation.isError) && (
         <p className="text-red-500 mt-4">Error updating post</p>
       )}
     </div>

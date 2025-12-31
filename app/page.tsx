@@ -1,24 +1,23 @@
-import { fetchPosts } from "@/hooks/posts/queries";
-import Post from "@/components/Post";
+import { getPosts } from "@/api/getPosts";
+import Hydrate from "@/components/Hydrate/Hydrate";
+import Posts from "@/components/Posts";
+import { getQueryClient } from "@/lib/getQueryClient";
+import { dehydrate } from "@tanstack/react-query";
 
 export default async function Home() {
-  const posts = await fetchPosts();
+  const queryClient = getQueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ["posts"],
+    queryFn: getPosts,
+  });
 
   return (
-    <div className="w-full">
-      <h1 className="text-center text-2xl underline mb-6">Latest Posts</h1>
-
-      {posts.length === 0 ? (
-        <div className="flex items-center justify-center min-h-[60vh]">
-          <p className="text-lg">No content at the moment.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-2 gap-5 max-xl:grid-cols-1">
-          {posts.map((post) => (
-            <Post key={post.id} data={post} />
-          ))}
-        </div>
-      )}
-    </div>
+    <Hydrate state={dehydrate(queryClient)}>
+      <div className="w-full">
+        <h1 className="text-center text-2xl underline mb-6">Latest Posts</h1>
+        <Posts />
+      </div>
+    </Hydrate>
   );
 }

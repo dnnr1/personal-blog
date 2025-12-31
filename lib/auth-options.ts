@@ -1,7 +1,8 @@
 import { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { cookies } from "next/headers";
 
-const baseURL = process.env.API_BASE_URL;
+const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -27,24 +28,36 @@ export const authOptions: NextAuthOptions = {
             }),
           });
           if (!response.ok) {
-            console.error("Login failed:", response);
-            throw new Error("Error logging in");
+            console.error("Login failed:", response.status);
+            return null;
           }
           const data = await response.json();
           if (data.ok && data.status === 200) {
             const setCookie = response.headers.get("set-cookie");
-            let token: string | undefined = undefined;
             if (setCookie) {
               const match = setCookie.match(/token=([^;]+)/);
-              if (match) token = match[1];
+              if (match) {
+                const token = match[1];
+                const cookieStore = await cookies();
+                const maxAgeMatch = setCookie.match(/Max-Age=(\d+)/i);
+                const maxAge = maxAgeMatch
+                  ? parseInt(maxAgeMatch[1])
+                  : undefined;
+                cookieStore.set({
+                  name: "token",
+                  value: token,
+                  httpOnly: true,
+                  path: "/",
+                  secure: process.env.NODE_ENV === "production",
+                  maxAge,
+                });
+              }
             }
-            const user = {
+            return {
               id: data.data.id,
               name: data.data.username,
               email: data.data.email,
-              token,
             };
-            return user;
           }
           return null;
         } catch (error) {
@@ -64,14 +77,16 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.apiToken = user.token;
+        token.name = user.name;
+        token.email = user.email;
       }
       return token;
     },
     async session({ session, token }) {
-      if (token && session.user) {
+      if (session.user) {
         session.user.id = token.id as string;
-        session.user.apiToken = token.apiToken as string;
+        session.user.name = token.name as string;
+        session.user.email = token.email as string;
       }
       return session;
     },

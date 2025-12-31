@@ -1,10 +1,13 @@
 "use client";
-import { useState } from "react";
+
+import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useDeletePost } from "@/hooks";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import ConfirmModal from "@/components/ConfirmModal";
 import Button from "../Button";
+import deletePost from "@/api/deletePost";
 
 type Props = {
   postId: string;
@@ -13,15 +16,23 @@ type Props = {
 export default function PostActions({ postId }: Props) {
   const router = useRouter();
   const { data: session } = useSession();
+  const queryClient = useQueryClient();
+
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const deletePost = useDeletePost();
+
+  const mutation = useMutation({
+    mutationFn: () => deletePost(postId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      router.push("/");
+    },
+  });
+
+  const handleDelete = useCallback(() => {
+    mutation.mutate();
+  }, [mutation]);
 
   if (!session?.user) return null;
-
-  async function handleDelete() {
-    await deletePost.mutateAsync(postId);
-    router.push("/");
-  }
 
   return (
     <>
@@ -39,7 +50,7 @@ export default function PostActions({ postId }: Props) {
         confirmLabel="Delete"
         onConfirm={handleDelete}
         onCancel={() => setShowDeleteModal(false)}
-        isLoading={deletePost.isPending}
+        isLoading={mutation.isPending}
       />
     </>
   );
