@@ -1,6 +1,6 @@
 "use client";
 
-import { getPosts } from "@/api/getPosts";
+import { getPosts } from "@/api/posts/getPosts";
 import formatDate from "@/util/formatDate";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";

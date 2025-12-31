@@ -1,4 +1,4 @@
-import { getPost } from "@/api/getPost";
+import { getPost } from "@/api/posts/getPost";
 import Hydrate from "@/components/Hydrate/Hydrate";
 import Post from "@/components/Post/Post";
 import { getQueryClient } from "@/lib/getQueryClient";

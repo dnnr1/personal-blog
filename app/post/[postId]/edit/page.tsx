@@ -5,9 +5,9 @@ import { PostFormData } from "@/lib/validations";
 import type { PendingImage } from "@/components/MDEditor/MDEditor";
 import { PostInput } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import editPost from "@/api/editPost";
-import { uploadFiles } from "@/api/uploadImages";
-import { getPost } from "@/api/getPost";
+import editPost from "@/api/posts/editPost";
+import { uploadFiles } from "@/api/upload/uploadImages";
+import { getPost } from "@/api/posts/getPost";
 
 type PostMutation = {
   id: string;

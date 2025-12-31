@@ -9,11 +9,6 @@ async function editPost(id: string, body: PostInput) {
     body: body ? JSON.stringify(body) : undefined,
     credentials: "include",
   });
-
-  console.log(body, id);
-
-  console.log(response);
-
   if (!response.ok) {
     throw new Error("Failed to edit post");
   }
