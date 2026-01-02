@@ -30,10 +30,10 @@ export default function Posts() {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-5 max-xl:grid-cols-1">
+    <div className="columns-2 max-xl:columns-1 [column-gap:1.25rem]">
       {posts.map((data) => (
         <div
-          className="bg-background dark:bg-dark-background cursor-pointer"
+          className="mb-5 inline-block w-full bg-background dark:bg-dark-background cursor-pointer [break-inside:avoid]"
           onClick={() => router.push(`/post/${data.id}`)}
           key={data.id}
         >
@@ -41,7 +41,7 @@ export default function Posts() {
             <Image
               src={data.pictureUrl}
               alt="Post image"
-              className="mb-4 rounded border-2 grayscale hover:grayscale-0 hover:scale-101 transition-all duration-750"
+              className="mb-4 w-full h-auto rounded border-2 grayscale hover:grayscale-0 hover:scale-101 transition-all duration-750"
               width={1920}
               height={1080}
               priority
