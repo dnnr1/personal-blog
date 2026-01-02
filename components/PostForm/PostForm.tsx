@@ -70,12 +70,6 @@ const PostForm = forwardRef<PostFormRef, Props>(
       }
     }
 
-    function removeCover() {
-      setCoverFile(null);
-      setCoverPreview(null);
-      if (fileInputRef.current) fileInputRef.current.value = "";
-    }
-
     async function handleFormSubmit(data: PostFormData) {
       const pendingImages = mdEditorRef.current?.getPendingImages() || [];
       await onSubmit(data, coverFile || undefined, pendingImages);
@@ -107,9 +101,6 @@ const PostForm = forwardRef<PostFormRef, Props>(
               text={coverPreview ? "Change image" : "Select image"}
               onClick={() => fileInputRef.current?.click()}
             />
-            {coverPreview && (
-              <Button text="Remove" type="button" onClick={removeCover} />
-            )}
           </div>
           {coverPreview && (
             <div className="mt-3 relative w-full max-w-md aspect-video">
