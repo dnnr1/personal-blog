@@ -2,13 +2,10 @@
 
 import { getPosts } from "@/api/posts/getPosts";
 import formatDate from "@/util/formatDate";
+import getExcerpt from "@/util/getExcerpt";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-
-function cutText(text: string, max: number) {
-  return text.length > max ? `${text.substring(0, max).trim()}...` : text;
-}
 
 export default function Posts() {
   const router = useRouter();
@@ -51,10 +48,10 @@ export default function Posts() {
             />
           )}
           <h2 className="text-2xl font-bold font-serif mb-3">
-            {cutText(data.title, 30)}
+            {getExcerpt(data.title, 30)}
           </h2>
           <p className="text-gray-700 dark:text-gray-300">
-            {cutText(data.content, 130)}
+            {getExcerpt(data.content, 130)}
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-400 pt-2">
             {formatDate(data.created_at)} by{" "}
