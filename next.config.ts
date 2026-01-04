@@ -1,14 +1,10 @@
 import type { NextConfig } from "next";
 
-const imagesUrl = process.env.NEXT_PUBLIC_API_BASE_URL
-  ? new URL(process.env.NEXT_PUBLIC_API_BASE_URL)
-  : null;
+const imagesUrl = new URL(process.env.NEXT_PUBLIC_API_BASE_URL!);
 
 const nextConfig: NextConfig = {
-  output: "export",
   images: {
-    unoptimized: true,
-    ...(imagesUrl && { domains: [imagesUrl.hostname] }),
+    domains: [imagesUrl.hostname],
   },
 };
 
