@@ -2,10 +2,12 @@ import { Post } from "@/types";
 
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-async function deletePost(id: string): Promise<Post> {
+async function deletePost(id: string, token: string): Promise<Post> {
   const response = await fetch(`${baseURL}/posts/${id}`, {
     method: "DELETE",
-    credentials: "include",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
   if (!response.ok) {
     throw new Error("Failed to delete post");

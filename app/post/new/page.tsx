@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import PostForm from "@/components/PostForm";
 import { PostFormData } from "@/lib/validations";
 import type { PendingImage } from "@/components/MDEditor/MDEditor";
@@ -10,13 +11,15 @@ import { uploadFiles } from "@/api/upload/uploadImages";
 
 export default function NewPostPage() {
   const router = useRouter();
+  const { data: session } = useSession();
+  const token = session?.user?.apiToken || "";
 
   const createPostMutation = useMutation({
-    mutationFn: (data: PostInput) => createPost(data),
+    mutationFn: (data: PostInput) => createPost(data, token),
   });
 
   const uploadImagesMutation = useMutation({
-    mutationFn: (data: File[]) => uploadFiles(data),
+    mutationFn: (data: File[]) => uploadFiles(data, token),
   });
 
   const isLoading =

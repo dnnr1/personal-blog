@@ -1,5 +1,6 @@
 "use client";
 import { useRouter, useParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 import PostForm from "@/components/PostForm";
 import { PostFormData } from "@/lib/validations";
 import type { PendingImage } from "@/components/MDEditor/MDEditor";
@@ -18,6 +19,8 @@ export default function EditPostPage() {
   const router = useRouter();
   const params = useParams<{ postId: string }>();
   const queryClient = useQueryClient();
+  const { data: session } = useSession();
+  const token = session?.user?.apiToken || "";
 
   const query = useQuery({
     queryKey: ["posts", params.postId],
@@ -27,7 +30,7 @@ export default function EditPostPage() {
   const post = query.data;
 
   const editPostMutation = useMutation({
-    mutationFn: ({ id, data }: PostMutation) => editPost(id, data),
+    mutationFn: ({ id, data }: PostMutation) => editPost(id, data, token),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["posts", params.postId],
@@ -36,7 +39,7 @@ export default function EditPostPage() {
   });
 
   const uploadImagesMutation = useMutation({
-    mutationFn: (data: File[]) => uploadFiles(data),
+    mutationFn: (data: File[]) => uploadFiles(data, token),
   });
 
   const isLoading =

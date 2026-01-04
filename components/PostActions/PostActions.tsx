@@ -17,11 +17,12 @@ export default function PostActions({ postId }: Props) {
   const router = useRouter();
   const { data: session } = useSession();
   const queryClient = useQueryClient();
+  const token = session?.user?.apiToken || "";
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const mutation = useMutation({
-    mutationFn: () => deletePost(postId),
+    mutationFn: () => deletePost(postId, token),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       router.push("/");
