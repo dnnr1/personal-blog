@@ -1,5 +1,5 @@
 "use client";
-import { getPost } from "@/api/posts/getPost";
+import { getPost } from "@/server/posts/getPost";
 import { useQuery } from "@tanstack/react-query";
 import Dot from "@/components/Dot";
 import MDPreview from "@/components/MDPreview";

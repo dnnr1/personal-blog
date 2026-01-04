@@ -7,7 +7,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import ConfirmModal from "@/components/ConfirmModal";
 import Button from "../Button";
-import deletePost from "@/api/posts/deletePost";
+import deletePost from "@/server/posts/deletePost";
 
 type Props = {
   postId: string;

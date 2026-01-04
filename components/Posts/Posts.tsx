@@ -1,6 +1,6 @@
 "use client";
 
-import { getPosts } from "@/api/posts/getPosts";
+import { getPosts } from "@/server/posts/getPosts";
 import formatDate from "@/util/formatDate";
 import getExcerpt from "@/util/getExcerpt";
 import { useQuery } from "@tanstack/react-query";

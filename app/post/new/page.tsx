@@ -5,9 +5,9 @@ import PostForm from "@/components/PostForm";
 import { PostFormData } from "@/lib/validations";
 import type { PendingImage } from "@/components/MDEditor/MDEditor";
 import { useMutation } from "@tanstack/react-query";
-import createPost from "@/api/posts/createPost";
+import createPost from "@/server/posts/createPost";
 import { PostInput } from "@/types";
-import { uploadFiles } from "@/api/upload/uploadImages";
+import { uploadFiles } from "@/server/upload/uploadImages";
 
 export default function NewPostPage() {
   const router = useRouter();
