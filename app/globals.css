@@ -7,3 +7,11 @@
   --color-smooth-orange: #ee5626;
   --color-smooth-black: #201f1f;
 }
+
+.wmde-markdown pre {
+  background-color: var(--color-smooth-black);
+}
+
+.wmde-markdown pre code {
+  color: var(--color-background);
+}

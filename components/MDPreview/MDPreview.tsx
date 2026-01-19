@@ -11,7 +11,6 @@ export default function MDPreview({ value }: Props) {
     <ReactMDEditor.Markdown
       source={value}
       style={{
-        whiteSpace: "pre-wrap",
         background: "none",
         fontFamily: "inherit",
         color: "inherit",
