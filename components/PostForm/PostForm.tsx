@@ -7,6 +7,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import type { MDEditorRef, PendingImage } from "@/components/MDEditor/MDEditor";
 import Button from "../Button";
+import { useRouter } from "next/navigation";
 
 const MDEditor = dynamic(() => import("@/components/MDEditor"), { ssr: false });
 
@@ -20,7 +21,7 @@ type Props = {
   onSubmit: (
     data: PostFormData,
     coverFile?: File,
-    pendingImages?: PendingImage[]
+    pendingImages?: PendingImage[],
   ) => Promise<void>;
   isLoading?: boolean;
   submitLabel?: string;
@@ -35,14 +36,15 @@ const PostForm = forwardRef<PostFormRef, Props>(
       isLoading,
       submitLabel = "Save",
     },
-    ref
+    ref,
   ) => {
     const [coverFile, setCoverFile] = useState<File | null>(null);
     const [coverPreview, setCoverPreview] = useState<string | null>(
-      defaultCoverUrl || null
+      defaultCoverUrl || null,
     );
     const fileInputRef = useRef<HTMLInputElement>(null);
     const mdEditorRef = useRef<MDEditorRef>(null);
+    const router = useRouter();
 
     useImperativeHandle(ref, () => ({
       getPendingImages: () => mdEditorRef.current?.getPendingImages() || [],
@@ -73,6 +75,10 @@ const PostForm = forwardRef<PostFormRef, Props>(
     async function handleFormSubmit(data: PostFormData) {
       const pendingImages = mdEditorRef.current?.getPendingImages() || [];
       await onSubmit(data, coverFile || undefined, pendingImages);
+    }
+
+    function handleCancel() {
+      router.back();
     }
 
     return (
@@ -132,14 +138,23 @@ const PostForm = forwardRef<PostFormRef, Props>(
             </p>
           )}
         </div>
-        <Button
-          text={isLoading ? "Saving..." : submitLabel}
-          disabled={isLoading}
-          type="submit"
-        />
+        <div
+          style={{
+            marginBottom: "2rem",
+            display: "flex",
+            gap: "1rem",
+          }}
+        >
+          <Button
+            text={isLoading ? "Saving..." : submitLabel}
+            disabled={isLoading}
+            type="submit"
+          />
+          <Button text="Cancel" disabled={isLoading} onClick={handleCancel} />
+        </div>
       </form>
     );
-  }
+  },
 );
 
 PostForm.displayName = "PostForm";
