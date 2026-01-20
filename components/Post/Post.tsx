@@ -45,7 +45,7 @@ function Post({ id }: Props) {
           <Image
             src={data.pictureUrl}
             alt="Post image"
-            className="mb-4 rounded"
+            className="mb-12 rounded"
             width={1920}
             height={1080}
             priority
