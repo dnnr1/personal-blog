@@ -5,7 +5,7 @@ type WrapperProps = {
 };
 
 function Wrapper({ children }: WrapperProps) {
-  return <div className="mx-[20%]">{children}</div>;
+  return <div className="mx-[10%] lg:mx-[20%]">{children}</div>;
 }
 
 export default Wrapper;

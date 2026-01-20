@@ -48,10 +48,10 @@ export default function Posts() {
             />
           )}
           <h2 className="text-2xl font-bold font-serif mb-3">
-            {getExcerpt(data.title, 30)}
+            {getExcerpt(data.title, 60)}
           </h2>
           <p className="text-gray-700 dark:text-gray-300">
-            {getExcerpt(data.content, 130)}
+            {getExcerpt(data.content, 300)}
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-400 pt-2">
             {formatDate(data.created_at)} by{" "}

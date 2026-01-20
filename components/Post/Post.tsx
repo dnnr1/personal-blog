@@ -21,7 +21,7 @@ function Post({ id }: Props) {
   if (isError) return <p>Error...</p>;
 
   return (
-    <div className="flex flex-col items-center pt-14">
+    <div className="flex flex-col items-center p-16">
       <h1 className="text-center text-4xl font-bold pb-4">{data.title}</h1>
       <div className="flex items-center pb-6">
         <div className="h-12 w-12 mr-3 rounded-full overflow-hidden bg-black">
@@ -40,7 +40,7 @@ function Post({ id }: Props) {
         <Dot />
       </div>
       <PostActions postId={id} />
-      <div className="w-full max-w-2xl mt-6">
+      <div className="w-full max-w-4xl mt-6">
         {data.pictureUrl && (
           <Image
             src={data.pictureUrl}

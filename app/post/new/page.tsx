@@ -28,7 +28,7 @@ export default function NewPostPage() {
   async function handleSubmit(
     data: PostFormData,
     coverFile?: File,
-    pendingImages?: PendingImage[]
+    pendingImages?: PendingImage[],
   ) {
     let content = data.content;
 
@@ -62,7 +62,7 @@ export default function NewPostPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto pt-8">
+    <div className="mx-auto pt-8">
       <h1 className="text-3xl font-bold mb-6">New Post</h1>
       <PostForm
         onSubmit={handleSubmit}

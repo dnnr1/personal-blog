@@ -48,7 +48,7 @@ export default function EditPostPage() {
   async function handleSubmit(
     data: PostFormData,
     coverFile?: File,
-    pendingImages?: PendingImage[]
+    pendingImages?: PendingImage[],
   ) {
     let content = data.content;
     let pictureUrl = post?.pictureUrl;
@@ -81,7 +81,7 @@ export default function EditPostPage() {
   if (!post) return <p className="text-center py-8">Post not found</p>;
 
   return (
-    <div className="max-w-4xl mx-auto pt-8">
+    <div className="mx-auto pt-8">
       <h1 className="text-3xl font-bold mb-6">Edit Post</h1>
       <PostForm
         defaultValues={{
