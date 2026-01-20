@@ -1,5 +1,4 @@
 "use client";
-import { logout } from "@/app/actions/authActions";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
@@ -33,7 +32,6 @@ export default function Button({
       onClick={() => {
         if (isLogout) {
           signOut();
-          logout();
           return;
         }
         if (onClick) {
