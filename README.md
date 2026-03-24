@@ -5,7 +5,7 @@ It was built to share posts and experiment with modern **React** and **Next.js**
 
 The blog uses a custom backend API to manage content and data.
 
-🔗 Backend repository: https://github.com/dnnr1/personal-blog-api
+
 
 ---
 
@@ -23,14 +23,8 @@ The blog uses a custom backend API to manage content and data.
 - **Theme support** (next-themes)
 
 ### Backend
-- **Node.js** & **TypeScript**
-- **Express 5**
-- **PostgreSQL** + **Knex.js**
-- **JWT Authentication** & **bcrypt**
-- **Zod**
-- **MinIO** (S3-compatible file storage)
-- **Multer** (file uploads)
-- **Jest** & **Supertest**
+
+🔗 Backend repository: https://github.com/dnnr1/personal-blog-api
 
 ### Deployment
 - **Vercel** (Frontend)
@@ -38,24 +32,22 @@ The blog uses a custom backend API to manage content and data.
 
 ---
 
-<div align="center">
-  
 
   <img 
-    src="https://github.com/user-attachments/assets/1eb6fd4e-0d08-4001-bdbd-d78401ca2946"
+    src="https://github.com/user-attachments/assets/2c0e6c87-d211-425e-ae6b-cb25965057bb"
     width="500"
     height="360"
     style="object-fit: cover; border-radius: 8px;"
   />
   <img 
-    src="https://github.com/user-attachments/assets/1f4dd94f-3337-4a6e-a6f3-279b3563c565"
+    src="https://github.com/user-attachments/assets/0ee1efd4-f58d-4bec-bb48-70b2e0a0e415"
     width="500"
     height="360"
     style="object-fit: cover; border-radius: 8px; margin-left: 12px;"
   />
     <br /><br />
   <img 
-    src="https://github.com/user-attachments/assets/d6dc2834-6229-4616-82d7-660719b80dba"
+    src="https://github.com/user-attachments/assets/1f2097f1-3a83-43ec-8689-fde62ba48026"
     width="1920"
     height="1080"
     style="object-fit: cover; border-radius: 10px;"
