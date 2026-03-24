@@ -32,16 +32,17 @@ The blog uses a custom backend API to manage content and data.
 
 ---
 
+<div align="center">
 
   <img 
     src="https://github.com/user-attachments/assets/2c0e6c87-d211-425e-ae6b-cb25965057bb"
-    width="450"
+    width="500"
     height="360"
     style="object-fit: cover; border-radius: 8px;"
   />
   <img 
     src="https://github.com/user-attachments/assets/0ee1efd4-f58d-4bec-bb48-70b2e0a0e415"
-    width="450"
+    width="500"
     height="360"
     style="object-fit: cover; border-radius: 8px; margin-left: 12px;"
   />
